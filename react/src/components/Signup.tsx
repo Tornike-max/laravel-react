@@ -2,16 +2,19 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { SignUpType } from "../types/types";
+import { useSignup } from "../tanstackHooks/useSignup";
 
 const SignUp = () => {
     const { register, handleSubmit, reset, getValues } = useForm<SignUpType>();
+    const { signupUser, isPending } = useSignup();
 
     const onSubmit = (data: SignUpType) => {
-        if (!data.email || !data.password || !data.firstname) {
+        if (!data.email || !data.password || !data.name) {
             return;
         } else {
             console.log(data);
-            reset();
+            signupUser(data);
+            // reset();
         }
     };
     return (
@@ -36,26 +39,13 @@ const SignUp = () => {
 
                 <div className="w-full flex items-center gap-2">
                     <label className="text-slate-600 font-medium text-lg max-w-[150px] w-full">
-                        First Name
+                        Full Name
                     </label>
                     <input
                         className="w-full rounded-xl border-[1px] focus:ring-1 focus:ring-indigo-500 py-2 px-4"
                         type="text"
-                        placeholder="Write your first name"
-                        {...register("firstname", {
-                            required: "This Field Is Required",
-                        })}
-                    />
-                </div>
-                <div className="w-full flex items-center gap-2">
-                    <label className="text-slate-600 font-medium text-lg max-w-[150px] w-full">
-                        Last Name
-                    </label>
-                    <input
-                        className="w-full rounded-xl border-[1px] focus:ring-1 focus:ring-indigo-500 py-2 px-4"
-                        type="text"
-                        placeholder="Write your last name"
-                        {...register("lastname", {
+                        placeholder="Write your full name"
+                        {...register("name", {
                             required: "This Field Is Required",
                         })}
                     />
@@ -108,7 +98,7 @@ const SignUp = () => {
                     type="submit"
                     className="py-3 px-4 text-lg font-semibold w-full flex justify-center items-center text-slate-50 bg-indigo-500 hover:bg-indigo-600 hover:text-slate-100 rounded-lg duration-150 transition-all"
                 >
-                    Sign Up
+                    {isPending ? "Loading..." : "Sign Up"}
                 </button>
                 <Link
                     className="text-slate-700 font-semibold w-full flex justify-end items-center hover:text-slate-900 duration-150 transition-all"
