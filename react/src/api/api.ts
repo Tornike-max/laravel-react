@@ -69,3 +69,38 @@ export const userLogoutApi = async (
         throw new Error("Error while logout");
     }
 };
+
+export const getUserApi = async (setUser: (user: object) => void) => {
+    try {
+        const response = await axiosClient.get("/api/user");
+
+        if (!response.data) {
+            throw new Error("Error while getting user");
+        }
+        const userData = response.data;
+        if (userData) {
+            setUser(userData.user);
+            return userData;
+        }
+        return {};
+    } catch (error) {
+        throw Error("Error Occured");
+    }
+};
+
+export const getUsersApi = async () => {
+    try {
+        const response = await axiosClient.get("/api/users");
+
+        if (!response.data) {
+            throw new Error("Error while getting users");
+        }
+        const userData = response.data;
+        if (userData) {
+            return userData.data;
+        }
+        return {};
+    } catch (error) {
+        throw Error("Error Occured");
+    }
+};
