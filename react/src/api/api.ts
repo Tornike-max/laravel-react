@@ -1,4 +1,5 @@
-import { LoginType, SignUpType } from "../types/types";
+import axios from "axios";
+import { LoginType, SignUpType, UserFormType } from "../types/types";
 import axiosClient from "./axios-client";
 
 export const loginUserApi = async (
@@ -88,19 +89,71 @@ export const getUserApi = async (setUser: (user: object) => void) => {
     }
 };
 
-export const getUsersApi = async () => {
+export const getUsersApi = async (page: string) => {
     try {
-        const response = await axiosClient.get("/api/users");
+        const response = await axiosClient.get(`/api/users?page=${page}`);
 
         if (!response.data) {
             throw new Error("Error while getting users");
         }
         const userData = response.data;
         if (userData) {
-            return userData.data;
+            return userData;
         }
         return {};
     } catch (error) {
         throw Error("Error Occured");
+    }
+};
+
+export const deleteUserApi = async (userId: string | number) => {
+    try {
+        await axiosClient.delete(`/api/users/${userId}`);
+    } catch (error) {
+        throw Error("Error Occured");
+    }
+};
+
+export const editUserApi = async (id: string | number, data: UserFormType) => {
+    try {
+        const response = await axios.put(`/api/users/${id}`, data);
+        if (!response.data) {
+            throw new Error("Error while updating user");
+        }
+
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const addUserApi = async (newData: {
+    name?: string;
+    email?: string;
+    password: string;
+}) => {
+    try {
+        console.log(newData);
+        const response = await axios.post(`/api/users`, newData);
+        if (!response.data) {
+            throw new Error("Error while adding user");
+        }
+
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getUpdateUserData = async (id: string | number) => {
+    try {
+        const user = await axiosClient.get(`/api/users/${id}`);
+        if (!user.data) {
+            throw new Error("Error while updating user");
+        }
+
+        return user.data;
+    } catch (error) {
+        console.log(error);
     }
 };

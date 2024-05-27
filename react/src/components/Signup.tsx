@@ -14,7 +14,7 @@ const SignUp = () => {
         } else {
             console.log(data);
             signupUser(data);
-            // reset();
+            reset();
         }
     };
     return (

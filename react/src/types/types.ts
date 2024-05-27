@@ -18,3 +18,11 @@ export type UserType = {
     created_at: string;
     updated_at: string;
 };
+
+export type UserFormType = {
+    id?: string | number;
+    name: string;
+    email: string;
+    password: string;
+    passwordConfirm?: string;
+};

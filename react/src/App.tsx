@@ -6,6 +6,7 @@ import NotFound from "./components/NotFound";
 import AuthLayout from "./layouts/AuthLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import Dashboard from "./components/Dashboard";
+import UserForm from "./components/UserForm";
 
 const App = () => {
     return (
@@ -19,6 +20,8 @@ const App = () => {
                     <Route path="/" element={<Navigate to={"/dashboard"} />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/users" element={<Users />} />
+                    <Route path="/users/new" element={<UserForm />} />
+                    <Route path="/users/:id" element={<UserForm />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>

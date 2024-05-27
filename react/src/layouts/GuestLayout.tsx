@@ -3,22 +3,17 @@ import { useStateContext } from "../context/useStateContext";
 import Navigation from "../ui/Navigation";
 import Header from "../ui/Header";
 import { useGetUser } from "../tanstackHooks/useGetUser";
-import { useGetUsers } from "../tanstackHooks/useGetUsers";
 
 const GuestLayout = () => {
     const { token } = useStateContext();
 
     const { userData, isPending } = useGetUser();
-    const { usersData, isUsersPending } = useGetUsers();
 
     if (!token) {
         return <Navigate to="/login" />;
     }
 
-    if (isPending || isUsersPending) return <p>Loading...</p>;
-
-    console.log(userData);
-    console.log(usersData);
+    if (isPending) return <p>Loading...</p>;
 
     return (
         <div className="max-w-[2200px] w-full h-screen flex bg-slate-50">
