@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginType, SignUpType, UserFormType } from "../types/types";
+import { LoginType, SignUpType } from "../types/types";
 import axiosClient from "./axios-client";
 
 export const loginUserApi = async (
@@ -114,9 +114,12 @@ export const deleteUserApi = async (userId: string | number) => {
     }
 };
 
-export const editUserApi = async (id: string | number, data: UserFormType) => {
+export const editUserApi = async (
+    id: string | number,
+    newData: { id: string; email?: string; password?: string; name?: string }
+) => {
     try {
-        const response = await axios.put(`/api/users/${id}`, data);
+        const response = await axiosClient.put(`/api/users/${id}`, newData);
         if (!response.data) {
             throw new Error("Error while updating user");
         }
@@ -133,13 +136,17 @@ export const addUserApi = async (newData: {
     password: string;
 }) => {
     try {
-        console.log(newData);
-        const response = await axios.post(`/api/users`, newData);
+        const response = await axiosClient.post("/api/users", newData);
+
         if (!response.data) {
-            throw new Error("Error while adding user");
+            throw new Error("Something went wrong");
         }
 
-        return response.data;
+        const userData = response.data;
+        console.log(userData);
+        if (userData) {
+            return userData;
+        }
     } catch (error) {
         console.log(error);
     }

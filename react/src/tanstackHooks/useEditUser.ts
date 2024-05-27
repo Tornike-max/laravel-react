@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UserFormType } from "../types/types";
 import toast from "react-hot-toast";
 import { editUserApi } from "../api/api";
 
@@ -12,8 +11,12 @@ export const useEditUser = () => {
             newData,
         }: {
             id: string | number;
-            newData: UserFormType;
-        }) => editUserApi(id, data),
+            newData: {
+                email?: string;
+                name?: string;
+                password?: string;
+            };
+        }) => editUserApi(id, newData),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["users"] });
             toast.success("User updated Successfully");

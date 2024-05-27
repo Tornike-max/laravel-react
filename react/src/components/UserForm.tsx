@@ -26,7 +26,6 @@ const UserForm = () => {
                 })
                 .catch((error) => {
                     console.error(error);
-
                     throw new Error("error occured");
                 })
                 .finally(() => {
@@ -39,10 +38,9 @@ const UserForm = () => {
     const onSubmit = (data: UserFormType) => {
         if (data && id) {
             const newData = {
-                id: userToUpdate?.id,
-                name: data.name,
-                email: data.name,
-                password: data.password,
+                name: data?.name,
+                email: data?.name,
+                password: data?.password,
             };
             editUser({ id, newData });
             console.log("edit", newData);
@@ -94,7 +92,7 @@ const UserForm = () => {
                         className="w-full rounded-xl border-[1px] focus:ring-1 focus:ring-indigo-500 py-2 px-4"
                         type="text"
                         required={id ? false : true}
-                        value={id && userToUpdate?.name}
+                        defaultValue={id && userToUpdate?.name}
                         {...register("name")}
                     />
                 </div>
@@ -106,7 +104,7 @@ const UserForm = () => {
                         className="w-full rounded-xl border-[1px] focus:ring-1 focus:ring-indigo-500 py-2 px-4"
                         type="text"
                         required={id ? false : true}
-                        value={id && userToUpdate?.email}
+                        defaultValue={id && userToUpdate?.email}
                         {...register("email")}
                     />
                 </div>

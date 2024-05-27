@@ -12,7 +12,6 @@ const SignUp = () => {
         if (!data.email || !data.password || !data.name) {
             return;
         } else {
-            console.log(data);
             signupUser(data);
             reset();
         }
